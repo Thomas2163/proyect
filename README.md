@@ -6,7 +6,7 @@ Este proyecto desarrolla un pipeline de Machine Learning para analizar y modelar
 
 ## 👥 Integrantes del Equipo
 * Alonso Gustavo Pacherres Rodriguez (20216420)
-* Integrante 2 (código / rol)
+* Ivonne Baquerizo Quipe (20230331)
 * Integrante 3 (código / rol)
 * Integrante 4 (código / rol)
 

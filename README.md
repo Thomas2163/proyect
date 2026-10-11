@@ -8,7 +8,7 @@ Este proyecto desarrolla un pipeline de Machine Learning para analizar y modelar
 * Alonso Gustavo Pacherres Rodriguez (20216420)
 * Ivonne Baquerizo Quipe (20230331)
 * Marlon Sanchez Garcia (20212600)
-* Integrante 4 (código / rol)
+* Jair Saa 
 
 ---
 

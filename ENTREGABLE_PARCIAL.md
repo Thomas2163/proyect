@@ -2,7 +2,7 @@
 
 Checklist de los componentes y avances entregados para la evaluación parcial.
 
-- [ ] Repositorio configurado con la estructura base solicitada
+- [X] Repositorio configurado con la estructura base solicitada
 - [X] README.md con descripción del problema y objetivos
 - [x] Carga y almacenamiento del dataset original en `data/raw/`
 - [x] Almacenamiento de datos limpios en `data/processed/`

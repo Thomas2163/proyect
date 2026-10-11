@@ -3,7 +3,7 @@
 Checklist de los componentes y avances entregados para la evaluación parcial.
 
 - [ ] Repositorio configurado con la estructura base solicitada
-- [x] README.md con descripción del problema y objetivos
+- [X] README.md con descripción del problema y objetivos
 - [x] Carga y almacenamiento del dataset original en `data/raw/`
 - [x] Almacenamiento de datos limpios en `data/processed/`
 - [x] Notebook `01_eda.ipynb` con análisis de variables y correlaciones

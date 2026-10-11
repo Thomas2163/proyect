@@ -11,4 +11,4 @@ Checklist de los componentes y avances entregados para la evaluación parcial.
 - [x] Paper integrante 1 incluido
 - [x] Paper integrante 2 incluido
 - [x] Paper integrante 3 incluido
-- [ ] Paper integrante 4 incluido
+- [X] Paper integrante 4 incluido

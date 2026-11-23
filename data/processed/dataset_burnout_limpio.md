@@ -1,1 +1,1 @@
-Link para descargar dataset_burnout_limpio.csv = https://drive.google.com/file/d/1UcIxTHCq0fLkUpJT6WHgkzZfkFTvytJm/view?usp=sharing
+Link para descargar dataset_burnout_limpio.csv = https://drive.google.com/drive/folders/1GwFfDrdY199ItNY66lJORlrNReDFrTjR?usp=sharing

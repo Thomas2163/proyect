@@ -1,0 +1,92 @@
+RESUMEN DE RESULTADOS Y COMPARACIÓN DE MODELOS
+Predicción del riesgo de burnout en estudiantes universitarios
+==============================================================
+
+1. PLANTEAMIENTO
+----------------
+- Dataset: 1,000,000 de registros, "Salud_mental_agotamiento_estudiantil".
+- Target binario: riesgo_burnout = 1 si burnout_score > 4 (11.4 % de los estudiantes).
+- Variables eliminadas por ser derivadas del target: mental_health_index, dropout_risk.
+- Dos conjuntos de variables:
+    * completo     -> todas las variables restantes.
+    * subconjunto  -> sin las variables de baja correlación con el target
+                      (internet_usage, academic_performance, age, screen_time).
+- División 70/30 estratificada, random_state = 42.
+- Métodos de balanceo: pesos por muestra (sample_weight) y SMOTE (solo en train).
+- Modelos: XGBoost y Random Forest, con búsqueda de hiperparámetros (RandomizedSearchCV).
+- Métrica prioritaria: recall (es peor no detectar a un estudiante en riesgo
+  que generar una falsa alarma).
+- Tabla completa: results/metrics.csv · Gráficos: results/plots/
+
+
+2. RESULTADOS EN TEST
+---------------------
+Baseline (XGBoost, hiperparámetros del paper, scale_pos_weight):
+    accuracy 0.8601 | precision 0.4424 | recall 0.8937 | F1 0.5918
+
+Balance por pesos (métricas ponderadas con sample_weight, Tabla I del reporte):
+    Modelo                      Accuracy  Precision  Recall   F1
+    XGBoost  completo           0.8766    0.8613     0.8978   0.8792
+    XGBoost  subconjunto        0.8767    0.8612     0.8983   0.8793
+    RF       completo           0.8731    0.8592     0.8925   0.8755
+    RF       subconjunto        0.8747    0.8615     0.8930   0.8769
+
+SMOTE (métricas sobre la distribución real, Tabla II del reporte):
+    Modelo                      Accuracy  Precision  Recall   F1
+    XGBoost  completo           0.8708    0.4625     0.8537   0.6000
+    XGBoost  subconjunto        0.8641    0.4494     0.8783   0.5946
+    RF       completo           0.8679    0.4571     0.8725   0.5999
+    RF       subconjunto        0.8672    0.4558     0.8779   0.6001
+
+
+3. ANÁLISIS
+-----------
+3.1 Menos variables, mismo desempeño
+    Quitar las 4 variables de baja correlación no cambia el resultado
+    (diferencias < 0.002 en todas las métricas). El modelo con el subconjunto es
+    igual de bueno y más simple, más rápido y más fácil de interpretar.
+
+3.2 Profundidad y sobreajuste en XGBoost
+    Al variar max_depth de 2 a 10 (balance por pesos), la exactitud en train sube
+    de 0.878 a 0.943, pero en test baja de 0.877 a 0.857. La brecha train-test
+    crece con la profundidad: los árboles profundos memorizan. max_depth = 2 dio el
+    mejor test y además es el modelo más barato. La búsqueda aleatoria eligió
+    max_depth = 6 (CV accuracy), pero en test no superó al modelo de profundidad 2.
+    Ver results/plots/curva_aprendizaje_xgboost.png.
+
+3.3 XGBoost vs Random Forest
+    Con el mismo método de balanceo, ambos quedan prácticamente empatados
+    (diferencias de 0.001 a 0.005). XGBoost logra ese resultado con un modelo
+    mucho más pequeño (100 árboles de profundidad 2) y en minutos, mientras que
+    cada búsqueda de Random Forest tomó entre 40 y 90 minutos.
+
+3.4 Pesos vs SMOTE
+    Con balance por pesos, ambos modelos alcanzan precision ~0.86 y F1 ~0.88,
+    frente a precision ~0.45 y F1 ~0.60 con SMOTE; el recall es similar en ambos
+    métodos (0.85-0.90). Ver la primera limitación (sección 4) sobre cómo se
+    calcularon estas métricas.
+    El modelo ganador es XGBoost con pesos, max_depth = 2 y el subconjunto de
+    variables: mejor equilibrio entre recall, precisión y costo computacional.
+    Frente al baseline (precision 0.44, recall 0.89), mantiene el recall con un
+    modelo más simple.
+
+
+4. LIMITACIONES
+---------------
+- Las búsquedas de hiperparámetros fueron acotadas (5-20 combinaciones,
+  2-3 pliegues) por el tiempo de cómputo con 1M de registros.
+- El umbral de riesgo (burnout_score > 4) es una decisión del equipo; otro
+  umbral cambiaría el balance de clases y los resultados.
+- No se validó con datos de estudiantes reales de una universidad peruana.
+
+
+5. INSIGHTS
+-----------
+- En el modelo ganador (importancia_variables_xgboost.png), stress_level
+  concentra ~52 % de la importancia, seguida de depression_score (~17 %),
+  anxiety_score (~12 %), sleep_hours, social_support y exam_pressure.
+  Horas de estudio, estrés financiero, actividad física y expectativas
+  familiares casi no aportan. Esto es coherente con el EDA.
+- Un modelo simple (XGBoost con 100 árboles de profundidad 2, subconjunto de
+  variables) alcanza el mismo desempeño que modelos más grandes: conviene para
+  un despliegue masivo en tiempo real.

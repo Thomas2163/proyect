@@ -1,0 +1,12 @@
+modelo,variables,balanceo,hiperparametros,evaluacion_test,train_accuracy,train_precision,train_recall,train_f1,test_accuracy,test_precision,test_recall,test_f1,en_reporte
+XGBoost (baseline),dataset_burnout_limpio,scale_pos_weight,n_estimators=100; learning_rate=0.3; max_depth=6,real,,,,,0.8601,0.4424,0.8937,0.5918,baseline
+XGBoost,completo,pesos,n_estimators=100; learning_rate=0.3; max_depth=2,ponderada,0.8775,0.8613,0.8999,0.8802,0.8766,0.8613,0.8978,0.8792,Tabla I
+XGBoost,subconjunto,pesos,n_estimators=100; learning_rate=0.3; max_depth=2,ponderada,0.8776,0.8613,0.9002,0.8803,0.8767,0.8612,0.8983,0.8793,Tabla I
+XGBoost (RandomizedSearchCV),completo,pesos,subsample=0.8; n_estimators=500; min_child_weight=5; max_depth=6; learning_rate=0.1; gamma=0; colsample_bytree=0.8,ponderada,0.8984,0.8749,0.9297,0.9015,0.8744,0.8655,0.8865,0.8759,
+XGBoost (RandomizedSearchCV),subconjunto,pesos,subsample=0.8; n_estimators=500; min_child_weight=5; max_depth=6; learning_rate=0.1; gamma=0; colsample_bytree=0.8,ponderada,0.8962,0.8724,0.9281,0.8994,0.8749,0.8643,0.8895,0.8767,
+XGBoost (RandomizedSearchCV),completo,SMOTE,subsample=0.8; n_estimators=500; min_child_weight=5; max_depth=6; learning_rate=0.1; gamma=0; colsample_bytree=0.8,real,0.906,0.8845,0.9341,0.9086,0.8708,0.4625,0.8537,0.6,Tabla II
+XGBoost (RandomizedSearchCV),subconjunto,SMOTE,subsample=0.8; n_estimators=500; min_child_weight=5; max_depth=6; learning_rate=0.1; gamma=0; colsample_bytree=0.8,real,0.8973,0.8745,0.9277,0.9003,0.8641,0.4494,0.8783,0.5946,Tabla II
+Random Forest (RandomizedSearchCV),completo,pesos,n_estimators=120; min_samples_split=10; min_samples_leaf=2; max_features=sqrt; max_depth=10,ponderada,0.8841,0.8634,0.9126,0.8873,0.8731,0.8592,0.8925,0.8755,Tabla I
+Random Forest (RandomizedSearchCV),subconjunto,pesos,n_estimators=120; min_samples_split=10; min_samples_leaf=2; max_features=sqrt; max_depth=10,ponderada,0.8856,0.866,0.9124,0.8886,0.8747,0.8615,0.893,0.8769,Tabla I
+Random Forest (RandomizedSearchCV),completo,SMOTE,n_estimators=150; min_samples_split=5; min_samples_leaf=2; max_features=log2; max_depth=14,real,0.918,0.8891,0.9551,0.9209,0.8679,0.4571,0.8725,0.5999,Tabla II
+Random Forest (RandomizedSearchCV),subconjunto,SMOTE,n_estimators=150; min_samples_split=5; min_samples_leaf=2; max_features=log2; max_depth=14,real,0.9186,0.8892,0.9565,0.9216,0.8672,0.4558,0.8779,0.6001,Tabla II
